@@ -2,8 +2,8 @@
 library(ggplot2)
 library(reshape2)
 library(lubridate)
-require(scales)
-
+library(scales)
+library(RColorBrewer)
 # Data Visualizations for PLOS data
 # 
 data <- read.csv('data/many_articles.csv', header = T)
@@ -11,18 +11,18 @@ data <- read.csv('data/many_articles.csv', header = T)
 data$publication_date <- as.Date(data$publication_date)
 data$months <- round(difftime(as.Date(now()), sub_data$publication_date, unit ="weeks")/4)
 data <- arrange(data, publication_date)
+# Aggregating stats
+data2 <- data[, 1:10]
+data2$facebook <- apply(data[,grepl("facebook", names(data))], 1, sum)
+data2$mendeley <- apply(data[,grepl("mendeley", names(data))], 1, sum)
+data2$twitter <- data$twitter
+data2$months <- as.numeric(data$months)
+data2$scopus <- data$scopus
+data2$pmc <- data$pmc
 
+d3 <- melt(data2, id.vars=1:7)
 
+myPalette <- colorRampPalette(rev(brewer.pal(11, "Spectral")))
 
-
-# f_data <- subset(sub_data, variable == "counter_html")
-# ggplot(f_data, aes(doi, value, color = journal)) + geom_point(aes(size = 1.2 * value), show_guide = FALSE) 
-
-
-# ggplot(subset(sub_data, journal == "PLoS Biology"), aes(publication_date, counter_html, color = journal)) + geom_point(aes(size = 5 * scopus), show_guide = FALSE) 
-
-# ggplot(sub_data, aes(publication_date, counter_html, color = journal)) + geom_point(aes(size = 5 * scopus)) 
-
-# # + scale_y_log10()
-
-ggplot(sub_data, ) + facet_wrap(~journal)
+ggplot(d3, aes(months, variable, fill = value)) + geom_tile() + 
+ scale_fill_gradientn(colours = myPalette(100)) + facet_wrap(~journal)
