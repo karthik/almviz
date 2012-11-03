@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>rAltmetric from ropensci</title>
+    <title>AltViz group</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AltViz">
     <meta name="author" content="Karthik Ram et al">
@@ -14,6 +14,39 @@
     <script src="assets/jquery.peity.min.js"></script>
     <script src="assets/js/highlight.pack.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+$(function() {
+  // Just the defaults.
+  $("span.pie").peity("pie")
+  $(".line").peity("line")
+  $(".bar").peity("bar")
+
+  // Set a custom colour and/or diameter.
+  $(".diameter span").peity("pie", {
+    colours: function() {
+      return ["#dddddd", this.getAttribute("data-colour")]
+    },
+    diameter: function() {
+      return this.getAttribute("data-diameter")
+    }
+  })
+
+  // Simple evented example.
+  $("select").change(function(){
+    $(this)
+      .siblings("span.graph")
+      .text($(this).val() + "/" + 5).change()
+  }).change()
+
+  var chartUpdate = function(event, value) {
+    $("#notice").text(
+      "Chart updated: " + value
+    )
+  }
+
+  $("span.graph").peity("pie").bind("chart:changed", chartUpdate)
+})
+</script>
     </head>
 
   <body>
