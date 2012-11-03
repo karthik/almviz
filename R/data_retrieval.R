@@ -20,9 +20,9 @@ data2$months <- as.numeric(data$months)
 data2$scopus <- data$scopus
 data2$pmc <- data$pmc
 
-d3 <- melt(data2, id.vars=1:7)
+d3 <- melt(data2, id.vars=c(1:7,14))
 
 myPalette <- colorRampPalette(rev(brewer.pal(11, "Spectral")))
 
 ggplot(d3, aes(months, variable, fill = value)) + geom_tile() + 
- scale_fill_gradientn(colours = myPalette(100)) + facet_wrap(~journal)
+ scale_fill_gradientn(colours = myPalette(100)) + facet_wrap(~journal) + scale_x_discrete(expand = c(0, 0)) + scale_y_discrete(expand = c(0, 0)) + coord_flip() 
