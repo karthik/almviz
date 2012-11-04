@@ -28,5 +28,5 @@ ggplot(d3, aes(months, variable, fill = value)) + geom_tile() +
  scale_fill_gradientn(colours = myPalette(100)) + facet_wrap(~journal) + scale_x_discrete(expand = c(0, 0)) + scale_y_discrete(expand = c(0, 0), breaks=c(1:90, by =5)) + coord_flip() 
 
  
-ggplot(d3, aes(months, variable, fill = value)) + geom_tile()  + facet_wrap(~journal) + scale_x_discrete(expand = c(0, 0)) + scale_y_discrete(expand = c(0, 0), breaks=c(1:90, by =5)) + coord_flip() 
+ggplot(d3, aes(months, variable, fill = value)) + geom_tile()  + facet_wrap(~journal) + scale_x_discrete(expand = c(0, 0), breaks=c(1:90, by = 5)) + scale_y_discrete(expand = c(0, 0)) + coord_flip() 
 
